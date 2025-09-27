@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Promedio de notas</title>
+    <script>
+        function generarCamposNotas() {
+            const cantidad = document.getElementById('cantidad_materias').value;
+            const contenedor = document.getElementById('notas_contenedor');
+            contenedor.innerHTML = '';
+            for (let i = 1; i <= cantidad; i++) {
+                contenedor.innerHTML += `
+                    <h4>Nota de la materia ${i}:</h4>
+                    <input type="number" name="nota${i}_1" step="0.01" required placeholder="Nota">
+                    <br><br>
+                `;
+            }
+            document.getElementById('form_notas').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <h1>Calculadora de Promedio de Notas por Materia</h1>
+    <h3>Ingrese la cantidad de materias:</h3>
+    <input type="number" id="cantidad_materias" required>
+    <button type="button" onclick="generarCamposNotas()">Aceptar</button>
+    <form id="form_notas" onsubmit="calcularPromedio(event)" style="display:none;">
+        <div id="notas_contenedor"></div>
+        <button type="submit">Calcular Promedio</button>
+        <h3 id="resultado_promedio"></h3>
+    </form>
+    <script>
+        function calcularPromedio(event) {
+            event.preventDefault();
+            const cantidad = document.getElementById('cantidad_materias').value;
+            let sumaNotas = 0;
+            for (let i = 1; i <= cantidad; i++) {
+                const nota = parseFloat(document.querySelector(`input[name="nota${i}_1"]`).value);
+                sumaNotas += nota;
+            }
+            const promedio = (sumaNotas / cantidad).toFixed(2);
+            document.getElementById('resultado_promedio').innerText = `El promedio de las notas es: ${promedio}`;
+            // Si quieres mostrar el autor, puedes agregarlo así:
+            // document.getElementById('resultado_promedio').innerHTML += '<br><span style="font-size:14px;">Created by David Corzo</span>';
+        }
+    </script>
+</body>
+</html>
